@@ -33,6 +33,15 @@ class LinkedList {
 
   shift() {
     let firstItem;
+
+    if(this.before != null && this.after != null) {
+      firstItem = this.before;
+      this.before = null;
+      let newThing = this.after;
+      this.after = this.thing;
+      this.thing = newThing;
+      return firstItem;
+    }
     if(this.after != null) {
       firstItem = this.thing;
 

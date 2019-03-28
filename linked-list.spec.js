@@ -29,7 +29,7 @@ describe('LinkedList', () => {
     expect(list.pop()).toBe(10);
     expect(list.pop()).toBe(20);
   });
-  xtest('example', () => {
+  test('example', () => {
     const list = new LinkedList();
     list.push(10);
     list.push(20);
