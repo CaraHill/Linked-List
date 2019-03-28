@@ -15,7 +15,7 @@ describe('LinkedList', () => {
     expect(list.shift()).toBe(10);
     expect(list.shift()).toBe(20);
   });
-  xtest('add/extract elements from the beginning of the list with unshift/shift', () => {
+  test('add/extract elements from the beginning of the list with unshift/shift', () => {
     const list = new LinkedList();
     list.unshift(10);
     list.unshift(20);

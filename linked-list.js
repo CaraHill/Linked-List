@@ -1,7 +1,7 @@
 class LinkedList {
   constructor() {
-    this.next = null;
-    this.previous = null;
+    this.before = null;
+    this.after = null;
     this.thing = null;
   }
 
@@ -11,7 +11,7 @@ class LinkedList {
     }
 
     if(this.thing != null) {
-      this.previous = this.thing;
+      this.before = this.thing;
       this.thing = number;
     }
   }
@@ -19,17 +19,34 @@ class LinkedList {
   pop() {
     const lastItem = this.thing;
 
-    this.thing = this.previous;
+    this.thing = this.before;
 
     return lastItem;
   }
 
   shift() {
-    const firstItem = this.previous;
+    let firstItem;
+    if(this.after != null) {
+      firstItem = this.thing;
 
-    this.previous = this.thing;
+      this.thing = this.after;
+    } else {
+      firstItem = this.before;
 
+      this.before = this.thing;
+    }
     return firstItem;
+  }
+
+  unshift(number) {
+    if(this.thing == null) {
+      this.thing = number;
+    }
+
+    if(this.thing != null) {
+      this.after = this.thing;
+      this.thing = number;
+    }
   }
 }
 
