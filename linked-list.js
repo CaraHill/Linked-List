@@ -3,6 +3,7 @@ class LinkedList {
     this.before = null;
     this.after = null;
     this.thing = null;
+    this.incremental = 0;
   }
 
   push(number) {
@@ -14,6 +15,8 @@ class LinkedList {
       this.before = this.thing;
       this.thing = number;
     }
+
+    this.incremental += 1;
   }
 
   pop() {
@@ -28,6 +31,8 @@ class LinkedList {
 
       this.after = this.thing;
     }
+
+    this.incremental -= 1;
     return lastItem;
   }
 
@@ -40,6 +45,7 @@ class LinkedList {
       let newThing = this.after;
       this.after = this.thing;
       this.thing = newThing;
+      this.incremental -= 1;
       return firstItem;
     }
     if(this.after != null) {
@@ -51,6 +57,7 @@ class LinkedList {
 
       this.before = this.thing;
     }
+    this.incremental -= 1;
     return firstItem;
   }
 
@@ -63,6 +70,12 @@ class LinkedList {
       this.after = this.thing;
       this.thing = number;
     }
+
+    this.incremental += 1;
+  }
+
+  count() {
+    return this.incremental;
   }
 }
 
