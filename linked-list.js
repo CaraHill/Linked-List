@@ -17,11 +17,19 @@ class LinkedList {
   }
 
   pop() {
-    let lastItem = this.thing;
+    const lastItem = this.thing;
 
     this.thing = this.previous;
 
     return lastItem;
+  }
+
+  shift() {
+    const firstItem = this.previous;
+
+    this.previous = this.thing;
+
+    return firstItem;
   }
 }
 
