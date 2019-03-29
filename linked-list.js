@@ -15,7 +15,6 @@ class LinkedList {
       this.before = this.thing;
       this.thing = number;
     }
-
     this.incremental += 1;
   }
 
@@ -48,10 +47,15 @@ class LinkedList {
       this.incremental -= 1;
       return firstItem;
     }
+
     if(this.after != null) {
       firstItem = this.thing;
 
       this.thing = this.after;
+    } else if(this.before == null) {
+      firstItem = this.thing;
+
+      this.thing = null;
     } else {
       firstItem = this.before;
 
@@ -64,13 +68,14 @@ class LinkedList {
   unshift(number) {
     if(this.thing == null) {
       this.thing = number;
+      this.incremental += 1;
+      return;
     }
 
     if(this.thing != null) {
       this.after = this.thing;
       this.thing = number;
     }
-
     this.incremental += 1;
   }
 
