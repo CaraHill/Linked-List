@@ -1,117 +1,86 @@
-class LinkedList {
-  constructor() {
+class Node {
+  constructor(value) {
+    this.value = value;
     this.previous = null;
     this.next = null;
-    this.value = null;
+  }
+}
+
+class LinkedList {
+  constructor() {
+    this.tail = null;
+    this.head = null;
     this.incremental = 0;
-    this.listItems = new Object;
   }
 
   push(number) {
-    if(this.value != null && this.previous != null) {
-      this.next = this.previous;
-      this.previous = this.value;
-      this.value = number;
-      this.incremental += 1;
+    const node = new Node(number);
+
+    if(this.incremental === 0) {
+      this.head = node;
+      this.tail = node;
+      this.incremental++;
       return;
     }
 
-    if(this.value == null) {
-      this.value = number;
-      this.incremental += 1;
-      return;
+    if(this.incremental >= 2) {
+      node.previous = this.head;
+    } else {
+      node.previous = this.tail;
     }
 
-    if(this.value != null) {
-      this.previous = this.value;
-      this.value = number;
-      this.incremental += 1;
-      return
-    }
+    this.head = node;
+    let oldNode = node.previous;
+    oldNode.next = node;
+    this.incremental++;
   }
 
   pop() {
-    let lastItem;
+    let nodeToRemove = this.head;
+    this.head = this.head.previous;
+    this.incremental--;
 
-    if(this.previous != null && this.next != null) {
-      lastItem = this.next;
-
-      this.next = this.value;
-
-      this.incremental -= 1;
-      return lastItem;
+    if(this.head != null) {
+      this.head.next = null;
     }
 
-    if(this.previous != null) {
-      lastItem = this.value;
-
-      this.value = this.previous;
-    } else {
-      lastItem = this.next;
-
-      this.next = this.value;
+    if(this.incremental === 0) {
+      this.tail = null;
     }
 
-    this.incremental -= 1;
-    return lastItem;
+    return nodeToRemove.value;
   }
 
   shift() {
-    let firstItem;
+    let nodeToRemove = this.tail;
+    this.tail = this.tail.next;
+    this.incremental--;
 
-
-    if(this.previous != null && this.next != null) {
-      console.log(this.previous, this.next, this.value)
-      firstItem = this.previous;
-
-      if(this.incremental >= 2) {
-        this.previous = this.value;
-      } else {
-        this.previous = null;
-      }
-
-      let newThing = this.next;
-      this.next = this.value;
-      this.value = newThing;
-
-      this.incremental -= 1;
-      return firstItem;
+    if(this.tail != null) {
+      this.tail.previous = null;
     }
 
-    if(this.next != null) {
-      firstItem = this.value;
-
-      this.value = this.next;
-      this.incremental -= 1;
-      return firstItem;
-    } else if(this.previous == null) {
-      firstItem = this.value;
-
-      this.value = null;
-      this.incremental -= 1;
-      return firstItem;
-    } else {
-      firstItem = this.previous;
-
-      this.previous = this.value;
-      this.incremental -= 1;
-      return firstItem;
+    if(this.incremental === 0) {
+      this.head = null;
     }
+
+    return nodeToRemove.value;
   }
 
   unshift(number) {
-    if(this.value == null) {
-      this.value = number;
-      this.incremental += 1;
-      return;
+    const node = new Node(number);
+
+    if(this.incremental) {
+      node.next = this.head;
+      this.tail = node;
+      let oldNode = node.next;
+      oldNode.previous = node;
+    } else {
+      this.head = node;
+      this.tail = node;
     }
 
-    if(this.value != null) {
-      this.next = this.value;
-      this.value = number;
-      this.incremental += 1;
-      return;
-    }
+    this.incremental++;
   }
 
   count() {
@@ -119,27 +88,19 @@ class LinkedList {
   }
 
   delete(number) {
-    this.listItems["previous"] = this.previous;
-    this.listItems["next"] = this.next;
-    this.listItems["value"] = this.value;
-    console.log(this.listItems)
-
-    switch (Object.keys(this.listItems).find(key => this.listItems[key] === number)) {
-      case "previous":
-        this.previous = this.next;
-        this.next = null;
-        this.incremental -= 1;
-        break;
-      case "next":
-        this.next = this.previous;
-        this.previous = null;
-        this.incremental -= 1;
-        break;
-      case "value":
-        this.value = null;
-        this.incremental -= 1;
+    if(this.head.value === number) {
+      this.head = null;
+      this.tail = null;
+      this.incremental--;
+      return;
     }
-    return;
+
+    if(this.head.previous.value === number) {
+      this.head.previous = this.tail;
+      this.tail.next = this.head;
+      this.incremental--;
+    }
+
   }
 }
 
