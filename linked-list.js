@@ -89,8 +89,7 @@ class LinkedList {
 
   delete(number) {
     if(this.head.value === number) {
-      this.head = null;
-      this.tail = null;
+      this.head = this.tail;
       this.incremental--;
       return;
     }

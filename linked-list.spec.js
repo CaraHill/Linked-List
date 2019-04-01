@@ -90,7 +90,7 @@ describe('LinkedList', () => {
     expect(list.count()).toBe(1);
     expect(list.pop()).toBe(20);
   });
-  xtest('deletes the second of two elements', () => {
+  test('deletes the second of two elements', () => {
     const list = new LinkedList();
     list.push(10);
     list.push(20);
