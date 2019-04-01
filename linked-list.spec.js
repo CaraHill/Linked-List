@@ -82,7 +82,7 @@ describe('LinkedList', () => {
     list.delete(10);
     expect(list.count()).toBe(0);
   });
-  xtest('deletes the first of two elements', () => {
+  test('deletes the first of two elements', () => {
     const list = new LinkedList();
     list.push(10);
     list.push(20);
