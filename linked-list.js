@@ -1,30 +1,30 @@
 class LinkedList {
   constructor() {
-    this.before = null;
-    this.after = null;
-    this.thing = null;
+    this.previous = null;
+    this.next = null;
+    this.value = null;
     this.incremental = 0;
     this.listItems = new Object;
   }
 
   push(number) {
-    if(this.thing != null && this.before != null) {
-      this.after = this.before;
-      this.before = this.thing;
-      this.thing = number;
+    if(this.value != null && this.previous != null) {
+      this.next = this.previous;
+      this.previous = this.value;
+      this.value = number;
       this.incremental += 1;
       return;
     }
 
-    if(this.thing == null) {
-      this.thing = number;
+    if(this.value == null) {
+      this.value = number;
       this.incremental += 1;
       return;
     }
 
-    if(this.thing != null) {
-      this.before = this.thing;
-      this.thing = number;
+    if(this.value != null) {
+      this.previous = this.value;
+      this.value = number;
       this.incremental += 1;
       return
     }
@@ -33,14 +33,23 @@ class LinkedList {
   pop() {
     let lastItem;
 
-    if(this.before != null) {
-      lastItem = this.thing;
+    if(this.previous != null && this.next != null) {
+      lastItem = this.next;
 
-      this.thing = this.before;
+      this.next = this.value;
+
+      this.incremental -= 1;
+      return lastItem;
+    }
+
+    if(this.previous != null) {
+      lastItem = this.value;
+
+      this.value = this.previous;
     } else {
-      lastItem = this.after;
+      lastItem = this.next;
 
-      this.after = this.thing;
+      this.next = this.value;
     }
 
     this.incremental -= 1;
@@ -50,49 +59,56 @@ class LinkedList {
   shift() {
     let firstItem;
 
-    console.log(this.before, this.after, this.thing)
 
-    if(this.before != null && this.after != null) {
-      firstItem = this.before;
-      this.before = null;
-      let newThing = this.after;
-      this.after = this.thing;
-      this.thing = newThing;
+    if(this.previous != null && this.next != null) {
+      console.log(this.previous, this.next, this.value)
+      firstItem = this.previous;
+
+      if(this.incremental >= 2) {
+        this.previous = this.value;
+      } else {
+        this.previous = null;
+      }
+
+      let newThing = this.next;
+      this.next = this.value;
+      this.value = newThing;
+
       this.incremental -= 1;
       return firstItem;
     }
 
-    if(this.after != null) {
-      firstItem = this.thing;
+    if(this.next != null) {
+      firstItem = this.value;
 
-      this.thing = this.after;
+      this.value = this.next;
       this.incremental -= 1;
       return firstItem;
-    } else if(this.before == null) {
-      firstItem = this.thing;
+    } else if(this.previous == null) {
+      firstItem = this.value;
 
-      this.thing = null;
+      this.value = null;
       this.incremental -= 1;
       return firstItem;
     } else {
-      firstItem = this.before;
+      firstItem = this.previous;
 
-      this.before = this.thing;
+      this.previous = this.value;
       this.incremental -= 1;
       return firstItem;
     }
   }
 
   unshift(number) {
-    if(this.thing == null) {
-      this.thing = number;
+    if(this.value == null) {
+      this.value = number;
       this.incremental += 1;
       return;
     }
 
-    if(this.thing != null) {
-      this.after = this.thing;
-      this.thing = number;
+    if(this.value != null) {
+      this.next = this.value;
+      this.value = number;
       this.incremental += 1;
       return;
     }
@@ -103,24 +119,24 @@ class LinkedList {
   }
 
   delete(number) {
-    this.listItems["before"] = this.before;
-    this.listItems["after"] = this.after;
-    this.listItems["thing"] = this.thing;
+    this.listItems["previous"] = this.previous;
+    this.listItems["next"] = this.next;
+    this.listItems["value"] = this.value;
     console.log(this.listItems)
 
     switch (Object.keys(this.listItems).find(key => this.listItems[key] === number)) {
-      case "before":
-        this.before = this.after;
-        this.after = null;
+      case "previous":
+        this.previous = this.next;
+        this.next = null;
         this.incremental -= 1;
         break;
-      case "after":
-        this.after = this.before;
-        this.before = null;
+      case "next":
+        this.next = this.previous;
+        this.previous = null;
         this.incremental -= 1;
         break;
-      case "thing":
-        this.thing = null;
+      case "value":
+        this.value = null;
         this.incremental -= 1;
     }
     return;
