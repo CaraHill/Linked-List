@@ -104,4 +104,11 @@ describe('LinkedList', () => {
     list.delete(20);
     expect(list.count()).toBe(1);
   });
+  test('inserts in the middle of the list', () => {
+    const list = new LinkedList();
+    list.push(10);
+    list.push(30);
+    list.insert(20);
+    expect(list.list()).toEqual([10, 20, 30]);
+  });
 });

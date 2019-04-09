@@ -103,7 +103,24 @@ class LinkedList {
       this.tail.next = this.head;
       this.incremental--;
     }
+  }
 
+  insert(number) {
+    const node = new Node(number);
+
+    if(number < this.head.value && number > this.tail.value) {
+      node.value = number;
+      node.next = this.head;
+      node.previous = this.tail;
+      this.head.previous = node;
+      this.tail.next = node;
+    }
+
+    this.incremental++;
+  }
+
+  list() {
+    return [this.tail.value, this.tail.next.value, this.head.value];
   }
 }
 
