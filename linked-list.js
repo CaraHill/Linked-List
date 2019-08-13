@@ -16,35 +16,35 @@ class LinkedList {
   push(number) {
     const node = new Node(number);
 
-    if(this.incremental === 0) {
+    if (this.incremental === 0) {
       this.head = node;
       this.tail = node;
       this.incremental++;
       return;
     }
 
-    if(this.incremental >= 2) {
+    if (this.incremental >= 2) {
       node.previous = this.head;
     } else {
       node.previous = this.tail;
     }
 
     this.head = node;
-    let oldNode = node.previous;
+    const oldNode = node.previous;
     oldNode.next = node;
     this.incremental++;
   }
 
   pop() {
-    let nodeToRemove = this.head;
+    const nodeToRemove = this.head;
     this.head = this.head.previous;
     this.incremental--;
 
-    if(this.head != null) {
+    if (this.head != null) {
       this.head.next = null;
     }
 
-    if(this.incremental === 0) {
+    if (this.incremental === 0) {
       this.tail = null;
     }
 
@@ -52,15 +52,15 @@ class LinkedList {
   }
 
   shift() {
-    let nodeToRemove = this.tail;
+    const nodeToRemove = this.tail;
     this.tail = this.tail.next;
     this.incremental--;
 
-    if(this.tail != null) {
+    if (this.tail != null) {
       this.tail.previous = null;
     }
 
-    if(this.incremental === 0) {
+    if (this.incremental === 0) {
       this.head = null;
     }
 
@@ -70,10 +70,10 @@ class LinkedList {
   unshift(number) {
     const node = new Node(number);
 
-    if(this.incremental) {
+    if (this.incremental) {
       node.next = this.head;
       this.tail = node;
-      let oldNode = node.next;
+      const oldNode = node.next;
       oldNode.previous = node;
     } else {
       this.head = node;
@@ -88,17 +88,17 @@ class LinkedList {
   }
 
   delete(number) {
-    if(this.incremental <= 1 && this.head.value != number) {
+    if (this.incremental <= 1 && this.head.value != number) {
       return;
     }
 
-    if(this.head.value === number) {
+    if (this.head.value === number) {
       this.head = this.tail;
       this.incremental--;
       return;
     }
 
-    if(this.head.previous.value === number) {
+    if (this.head.previous.value === number) {
       this.head.previous = this.tail;
       this.tail.next = this.head;
       this.incremental--;
@@ -108,7 +108,7 @@ class LinkedList {
   insert(number) {
     const node = new Node(number);
 
-    if(number < this.head.value && number > this.tail.value) {
+    if (number < this.head.value && number > this.tail.value) {
       node.value = number;
       node.next = this.head;
       node.previous = this.tail;
