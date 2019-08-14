@@ -16,71 +16,70 @@ class LinkedList {
   push(number) {
     const node = new Node(number);
 
-    if (this.incremental === 0) {
+    node.previous = this.tail;
+
+    if (this.tail) {
+      this.tail.next = node;
+    }
+
+    this.tail = node;
+
+    if (this.head == null) {
       this.head = node;
-      this.tail = node;
-      this.incremental++;
-      return;
     }
 
-    if (this.incremental >= 2) {
-      node.previous = this.head;
-    } else {
-      node.previous = this.tail;
-    }
-
-    this.head = node;
-    const oldNode = node.previous;
-    oldNode.next = node;
-    this.incremental++;
+    this.incremental += 1;
   }
 
   pop() {
-    const nodeToRemove = this.head;
-    this.head = this.head.previous;
-    this.incremental--;
+    const element = this.tail;
 
-    if (this.head != null) {
-      this.head.next = null;
-    }
-
-    if (this.incremental === 0) {
+    if (this.tail === this.head) {
+      this.head = null;
       this.tail = null;
     }
+    if (this.tail !== this.head) {
+      this.tail = this.tail.previous;
+      this.tail.next = null;
+    }
 
-    return nodeToRemove.value;
+    this.incremental -= 1;
+    return element.value;
   }
 
   shift() {
-    const nodeToRemove = this.tail;
-    this.tail = this.tail.next;
-    this.incremental--;
+    const element = this.head;
 
-    if (this.tail != null) {
-      this.tail.previous = null;
-    }
-
-    if (this.incremental === 0) {
+    if (this.tail === this.head) {
       this.head = null;
+      this.tail = null;
     }
 
-    return nodeToRemove.value;
+    if (this.tail !== this.head) {
+      this.head = this.head.next;
+      this.head.previous = null;
+    }
+
+    this.incremental -= 1;
+    return element.value;
   }
 
   unshift(number) {
     const node = new Node(number);
 
-    if (this.incremental) {
-      node.next = this.head;
-      this.tail = node;
-      const oldNode = node.next;
-      oldNode.previous = node;
-    } else {
-      this.head = node;
+    node.next = this.head;
+
+    if (this.head) {
+      this.head.previous = node;
+    }
+
+    this.head = node;
+
+    if (this.tail == null) {
       this.tail = node;
     }
 
-    this.incremental++;
+    this.incremental += 1;
   }
 
   count() {
@@ -88,27 +87,33 @@ class LinkedList {
   }
 
   delete(number) {
-    if (this.incremental <= 1 && this.head.value != number) {
+    if (this.incremental <= 1 && this.head.value !== number) {
       return;
     }
 
     if (this.head.value === number) {
       this.head = this.tail;
-      this.incremental--;
+      this.incremental -= 1;
       return;
     }
 
-    if (this.head.previous.value === number) {
-      this.head.previous = this.tail;
-      this.tail.next = this.head;
-      this.incremental--;
+    if (this.tail.value === number) {
+      this.tail = this.head;
+      this.incremental -= 1;
+      return;
+    }
+
+    if (this.tail.previous && this.tail.previous.value === number) {
+      this.tail.previous = this.head;
+      this.head.next = this.tail;
+      this.incremental -= 1;
     }
   }
 
   insert(number) {
     const node = new Node(number);
 
-    if (number < this.head.value && number > this.tail.value) {
+    if (number < this.tail.value && number > this.head.value) {
       node.value = number;
       node.next = this.head;
       node.previous = this.tail;
@@ -116,11 +121,11 @@ class LinkedList {
       this.tail.next = node;
     }
 
-    this.incremental++;
+    this.incremental += 1;
   }
 
   list() {
-    return [this.tail.value, this.tail.next.value, this.head.value];
+    return [this.head.value, this.head.previous.value, this.head.next.value];
   }
 }
 
