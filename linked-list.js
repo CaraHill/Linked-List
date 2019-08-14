@@ -114,7 +114,6 @@ class LinkedList {
     const node = new Node(number);
 
     if (number < this.tail.value && number > this.head.value) {
-      node.value = number;
       node.next = this.head;
       node.previous = this.tail;
       this.head.previous = node;
